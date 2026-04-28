@@ -373,7 +373,7 @@ export default function Dashboard({ articles }) {
                 </p>
               </div>
               <a 
-                href={selectedArticle.url || `https://news.google.com/search?q=${encodeURIComponent(selectedArticle.headline)}`} 
+                href={selectedArticle.url || `https://www.google.com/search?q=${encodeURIComponent(selectedArticle.headline + " Kumbh Mela " + selectedArticle.source)}`} 
                 className="btn" 
                 target="_blank" 
                 rel="noreferrer" 
