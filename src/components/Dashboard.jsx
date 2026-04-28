@@ -55,6 +55,8 @@ export default function Dashboard({ articles }) {
   const [filterPhase, setFilterPhase] = useState('All');
   const [filterTopic, setFilterTopic] = useState('All');
   const [filterSourceType, setFilterSourceType] = useState('All');
+  const [filterStartDate, setFilterStartDate] = useState('');
+  const [filterEndDate, setFilterEndDate] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedArticle, setSelectedArticle] = useState(null);
   
@@ -68,10 +70,12 @@ export default function Dashboard({ articles }) {
       const matchPhase = filterPhase === 'All' || a.phase === filterPhase.toLowerCase();
       const matchTopic = filterTopic === 'All' || a.topic === filterTopic;
       const matchSource = filterSourceType === 'All' || a.sourceType === filterSourceType.toLowerCase();
+      const matchStartDate = !filterStartDate || a.date >= filterStartDate;
+      const matchEndDate = !filterEndDate || a.date <= filterEndDate;
       const matchSearch = a.headline.toLowerCase().includes(searchQuery.toLowerCase());
-      return matchEdition && matchPhase && matchTopic && matchSource && matchSearch;
+      return matchEdition && matchPhase && matchTopic && matchSource && matchStartDate && matchEndDate && matchSearch;
     });
-  }, [articles, filterEdition, filterPhase, filterTopic, filterSourceType, searchQuery]);
+  }, [articles, filterEdition, filterPhase, filterTopic, filterSourceType, filterStartDate, filterEndDate, searchQuery]);
 
   // Derived Stats
   const uniqueTopicsCount = new Set(filteredArticles.map(a => a.topic)).size;
@@ -195,6 +199,24 @@ export default function Dashboard({ articles }) {
           <option value="National">National</option>
           <option value="Regional">Regional</option>
         </select>
+        
+        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+          <input 
+            type="date" 
+            className="filter-input" 
+            value={filterStartDate}
+            onChange={e => {setFilterStartDate(e.target.value); setCurrentPage(1);}}
+            title="Start Date"
+          />
+          <span style={{color: 'var(--text-secondary)'}}>to</span>
+          <input 
+            type="date" 
+            className="filter-input" 
+            value={filterEndDate}
+            onChange={e => {setFilterEndDate(e.target.value); setCurrentPage(1);}}
+            title="End Date"
+          />
+        </div>
         
         <input 
           type="text" 
