@@ -373,7 +373,7 @@ export default function Dashboard({ articles }) {
                 </p>
               </div>
               <a 
-                href={selectedArticle.url || `https://www.google.com/search?q=${encodeURIComponent(selectedArticle.headline + " Kumbh Mela " + selectedArticle.source)}`} 
+                href={selectedArticle.url || `https://www.google.com/search?q=${encodeURIComponent(`"${selectedArticle.headline}" OR (${selectedArticle.edition === 'nashik2015' ? 'Nashik' : 'Prayagraj'} Kumbh Mela ${selectedArticle.date.substring(0, 4)} ${selectedArticle.source})`)}`} 
                 className="btn" 
                 target="_blank" 
                 rel="noreferrer" 
