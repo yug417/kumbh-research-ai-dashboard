@@ -27,7 +27,6 @@ export default function About() {
       <div className="card" style={{ textAlign: 'center', background: 'rgba(244, 160, 28, 0.05)', borderColor: 'var(--accent-primary)' }}>
         <h3 style={{ marginBottom: '16px' }}>Project Credits</h3>
         <p>Developed for the <strong>Kumbh Research & AI Internship</strong></p>
-        <p style={{ color: 'var(--text-secondary)', marginTop: '8px', fontSize: '0.9rem' }}>Built using React, Vite, Chart.js, and Lucide Icons.</p>
       </div>
 
     </div>
