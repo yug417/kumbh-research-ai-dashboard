@@ -4,37 +4,31 @@ import { Download } from 'lucide-react';
 import { ALL_TOPICS } from '../constants';
 
 export default function FilterBar({
-  filterEdition, setFilterEdition,
-  filterPhase, setFilterPhase,
-  filterTopic, setFilterTopic,
-  filterSourceType, setFilterSourceType,
-  filterStartDate, setFilterStartDate,
-  filterEndDate, setFilterEndDate,
-  searchQuery, setSearchQuery,
+  filterState, dispatch,
   setCurrentPage,
   exportCSV
 }) {
   return (
     <div className="card filter-bar">
-      <select className="filter-select" value={filterEdition} onChange={e => {setFilterEdition(e.target.value); setCurrentPage(1);}}>
+      <select className="filter-select" value={filterState.edition} onChange={e => {dispatch({ type: 'SET_EDITION', payload: e.target.value }); setCurrentPage(1);}}>
         <option value="All">All Editions</option>
         <option value="nashik2015">Nashik 2015</option>
         <option value="prayagraj2025">Prayagraj 2025</option>
       </select>
       
-      <select className="filter-select" value={filterPhase} onChange={e => {setFilterPhase(e.target.value); setCurrentPage(1);}}>
+      <select className="filter-select" value={filterState.phase} onChange={e => {dispatch({ type: 'SET_PHASE', payload: e.target.value }); setCurrentPage(1);}}>
         <option value="All">All Phases</option>
         <option value="Before">Before</option>
         <option value="During">During</option>
         <option value="After">After</option>
       </select>
       
-      <select className="filter-select" value={filterTopic} onChange={e => {setFilterTopic(e.target.value); setCurrentPage(1);}}>
+      <select className="filter-select" value={filterState.topic} onChange={e => {dispatch({ type: 'SET_TOPIC', payload: e.target.value }); setCurrentPage(1);}}>
         <option value="All">All Topics</option>
         {ALL_TOPICS.map(t => <option key={t} value={t}>{t}</option>)}
       </select>
       
-      <select className="filter-select" value={filterSourceType} onChange={e => {setFilterSourceType(e.target.value); setCurrentPage(1);}}>
+      <select className="filter-select" value={filterState.sourceType} onChange={e => {dispatch({ type: 'SET_SOURCE_TYPE', payload: e.target.value }); setCurrentPage(1);}}>
         <option value="All">All Sources</option>
         <option value="National">National</option>
         <option value="Regional">Regional</option>
@@ -44,16 +38,16 @@ export default function FilterBar({
         <input 
           type="date" 
           className="filter-input" 
-          value={filterStartDate}
-          onChange={e => {setFilterStartDate(e.target.value); setCurrentPage(1);}}
+          value={filterState.startDate}
+          onChange={e => {dispatch({ type: 'SET_START_DATE', payload: e.target.value }); setCurrentPage(1);}}
           title="Start Date"
         />
         <span style={{color: 'var(--text-secondary)'}}>to</span>
         <input 
           type="date" 
           className="filter-input" 
-          value={filterEndDate}
-          onChange={e => {setFilterEndDate(e.target.value); setCurrentPage(1);}}
+          value={filterState.endDate}
+          onChange={e => {dispatch({ type: 'SET_END_DATE', payload: e.target.value }); setCurrentPage(1);}}
           title="End Date"
         />
       </div>
@@ -62,8 +56,8 @@ export default function FilterBar({
         type="text" 
         className="filter-input" 
         placeholder="Search headline..." 
-        value={searchQuery}
-        onChange={e => {setSearchQuery(e.target.value); setCurrentPage(1);}}
+        value={filterState.searchQuery}
+        onChange={e => {dispatch({ type: 'SET_SEARCH_QUERY', payload: e.target.value }); setCurrentPage(1);}}
       />
       
       <button className="btn" onClick={exportCSV} style={{ marginLeft: 'auto' }}>
@@ -74,20 +68,8 @@ export default function FilterBar({
 }
 
 FilterBar.propTypes = {
-  filterEdition: PropTypes.string.isRequired,
-  setFilterEdition: PropTypes.func.isRequired,
-  filterPhase: PropTypes.string.isRequired,
-  setFilterPhase: PropTypes.func.isRequired,
-  filterTopic: PropTypes.string.isRequired,
-  setFilterTopic: PropTypes.func.isRequired,
-  filterSourceType: PropTypes.string.isRequired,
-  setFilterSourceType: PropTypes.func.isRequired,
-  filterStartDate: PropTypes.string.isRequired,
-  setFilterStartDate: PropTypes.func.isRequired,
-  filterEndDate: PropTypes.string.isRequired,
-  setFilterEndDate: PropTypes.func.isRequired,
-  searchQuery: PropTypes.string.isRequired,
-  setSearchQuery: PropTypes.func.isRequired,
+  filterState: PropTypes.object.isRequired,
+  dispatch: PropTypes.func.isRequired,
   setCurrentPage: PropTypes.func.isRequired,
   exportCSV: PropTypes.func.isRequired
 };

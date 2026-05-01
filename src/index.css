@@ -497,6 +497,153 @@ footer {
   color: #4ECDC4;
 }
 
+/* TopicInsights Classes */
+.topics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 24px;
+}
+.topic-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.topic-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 12px;
+}
+.topic-title {
+  font-size: 1.2rem;
+}
+.topic-badge {
+  margin-left: auto;
+  background: var(--accent-primary);
+  color: #000;
+}
+.topic-stats {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+.phase-badges-container {
+  display: flex;
+  gap: 8px;
+  font-size: 0.8rem;
+}
+.topic-footer {
+  margin-top: auto;
+}
+.headlines-title {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+.headlines-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.headline-item {
+  font-size: 0.9rem;
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+.headline-icon {
+  flex-shrink: 0;
+  margin-top: 3px;
+  color: var(--text-secondary);
+}
+.headline-source {
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+}
+.no-articles {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+/* AIInsights Classes */
+.ai-insights-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+.ai-insights-title {
+  margin-bottom: 20px;
+  color: var(--accent-primary);
+}
+.ai-insights-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  list-style-position: inside;
+}
+.table-responsive {
+  overflow-x: auto;
+}
+.matrix-title {
+  margin-bottom: 20px;
+}
+.topic-cell {
+  font-weight: 500;
+}
+.trend-increasing {
+  color: #4ECDC4;
+  display: flex;
+  align-items: center;
+}
+.trend-decreasing {
+  color: #FF6B6B;
+  display: flex;
+  align-items: center;
+}
+.trend-stable {
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+}
+
+/* Timeline Classes */
+.timeline-card {
+  padding: 40px 24px;
+}
+.timeline-legend {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+  justify-content: center;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.timeline-chart-container {
+  position: relative;
+  height: 300px;
+}
+.kumbh-band {
+  position: absolute;
+  top: 0;
+  bottom: 30px;
+  z-index: 0;
+  pointer-events: none;
+}
+.band-label {
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
 .insight-quote {
   background: rgba(244, 160, 28, 0.1);
   padding: 12px;

@@ -5,16 +5,13 @@ import TopicInsights from './components/TopicInsights';
 import Timeline from './components/Timeline';
 import AIInsights from './components/AIInsights';
 import About from './components/About';
+import ErrorBoundary from './components/ErrorBoundary';
 import articlesData from './data/articles.json';
 import './index.css';
 
 function App() {
   const [theme, setTheme] = useState('dark');
-  const [articles, setArticles] = useState([]);
-
-  useEffect(() => {
-    setArticles(articlesData);
-  }, []);
+  const [articles, setArticles] = useState(articlesData);
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
@@ -51,76 +48,88 @@ function App() {
 
       <main>
         {/* Sections will go here */}
-        <section id="hero" className="section-hero">
-          <div className="hero-content">
-            <h1>Kumbh Mela News Intelligence</h1>
-            <p className="subtitle">A structured AI-ready dataset across two Kumbh events</p>
-            <p className="description">
-              A data journalism and AI research platform displaying structured news data from Nashik 2015 and Prayagraj 2025.
-            </p>
-            <div className="stats-row">
-              <div className="stat-card">
-                <h2>{articles.length}</h2>
-                <p>Total Articles</p>
+        <ErrorBoundary>
+          <section id="hero" className="section-hero">
+            <div className="hero-content">
+              <h1>Kumbh Mela News Intelligence</h1>
+              <p className="subtitle">A structured AI-ready dataset across two Kumbh events</p>
+              <p className="description">
+                A data journalism and AI research platform displaying structured news data from Nashik 2015 and Prayagraj 2025.
+              </p>
+              <div className="stats-row">
+                <div className="stat-card">
+                  <h2>{articles.length}</h2>
+                  <p>Total Articles</p>
+                </div>
+                <div className="stat-card">
+                  <h2>{new Set(articles.map(a => a.topic)).size}</h2>
+                  <p>Unique Topics</p>
+                </div>
+                <div className="stat-card">
+                  <h2>{new Set(articles.map(a => a.edition)).size}</h2>
+                  <p>Editions Covered</p>
+                </div>
+                <div className="stat-card">
+                  <h2>{new Set(articles.map(a => a.date.substring(0,4))).size}</h2>
+                  <p>Years of Data</p>
+                </div>
               </div>
-              <div className="stat-card">
-                <h2>{new Set(articles.map(a => a.topic)).size}</h2>
-                <p>Unique Topics</p>
-              </div>
-              <div className="stat-card">
-                <h2>{new Set(articles.map(a => a.edition)).size}</h2>
-                <p>Editions Covered</p>
-              </div>
-              <div className="stat-card">
-                <h2>{new Set(articles.map(a => a.date.substring(0,4))).size}</h2>
-                <p>Years of Data</p>
-              </div>
+              <button className="btn hero-cta" onClick={() => scrollToSection('dashboard')}>
+                Explore the Dataset <ArrowRight size={18} />
+              </button>
             </div>
-            <button className="btn hero-cta" onClick={() => scrollToSection('dashboard')}>
-              Explore the Dataset <ArrowRight size={18} />
-            </button>
-          </div>
-        </section>
+          </section>
+        </ErrorBoundary>
 
-        <section id="dashboard" className="section">
-          <div className="section-header">
-            <h2><BarChart3 className="icon" /> Dashboard</h2>
-            <p>Interactive dataset exploration</p>
-          </div>
-          <Dashboard articles={articles} theme={theme} />
-        </section>
+        <ErrorBoundary>
+          <section id="dashboard" className="section">
+            <div className="section-header">
+              <h2><BarChart3 className="icon" /> Dashboard</h2>
+              <p>Interactive dataset exploration</p>
+            </div>
+            <Dashboard articles={articles} theme={theme} />
+          </section>
+        </ErrorBoundary>
 
-        <section id="insights" className="section">
-          <div className="section-header">
-            <h2>Topic Insights</h2>
-            <p>Deep dive into specific coverage areas</p>
-          </div>
-          <TopicInsights articles={articles} />
-        </section>
+        <ErrorBoundary>
+          <section id="insights" className="section">
+            <div className="section-header">
+              <h2>Topic Insights</h2>
+              <p>Deep dive into specific coverage areas</p>
+            </div>
+            <TopicInsights articles={articles} />
+          </section>
+        </ErrorBoundary>
 
-        <section id="timeline" className="section">
-          <div className="section-header">
-            <h2><Clock className="icon" /> Timeline Mapping</h2>
-            <p>Chronological news publication tracking</p>
-          </div>
-          <Timeline articles={articles} />
-        </section>
+        <ErrorBoundary>
+          <section id="timeline" className="section">
+            <div className="section-header">
+              <h2><Clock className="icon" /> Timeline Mapping</h2>
+              <p>Chronological news publication tracking</p>
+            </div>
+            <Timeline articles={articles} />
+          </section>
+        </ErrorBoundary>
 
-        <section id="ai" className="section">
-          <div className="section-header">
-            <h2><Brain className="icon" /> AI Insights</h2>
-            <p>Basic AI-generated analysis of the dataset</p>
-          </div>
-          <AIInsights articles={articles} />
-        </section>
+        <ErrorBoundary>
+          <section id="ai" className="section">
+            <div className="section-header">
+              <h2><Brain className="icon" /> AI Insights</h2>
+              <p>Basic AI-generated analysis of the dataset</p>
+            </div>
+            <AIInsights articles={articles} />
+          </section>
+        </ErrorBoundary>
 
-        <section id="about" className="section">
-          <div className="section-header">
-            <h2><Info className="icon" /> Methodology</h2>
-            <p>About the project and data collection</p>
-          </div>
-          <About />
-        </section>
+        <ErrorBoundary>
+          <section id="about" className="section">
+            <div className="section-header">
+              <h2><Info className="icon" /> Methodology</h2>
+              <p>About the project and data collection</p>
+            </div>
+            <About />
+          </section>
+        </ErrorBoundary>
       </main>
 
       <footer>

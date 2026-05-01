@@ -68,25 +68,25 @@ export default function Timeline({ articles }) {
   };
 
   return (
-    <div className="card" style={{ padding: '40px 24px' }}>
-      <div style={{ display: 'flex', gap: '20px', marginBottom: '20px', justifyContent: 'center' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+    <div className="card timeline-card">
+      <div className="timeline-legend">
+        <div className="legend-item">
           <div className="legend-dot" style={{ background: '#4ECDC4' }}></div>
           <span>Nashik 2015</span>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <div className="legend-item">
           <div className="legend-dot" style={{ background: '#F4A01C' }}></div>
           <span>Prayagraj 2025</span>
         </div>
       </div>
       
-      <div style={{ position: 'relative', height: '300px' }}>
+      <div className="timeline-chart-container">
         {/* Shaded bands for Kumbh periods */}
-        <div style={{ position: 'absolute', top: 0, bottom: '30px', left: '12.5%', width: '4%', background: 'rgba(78, 205, 196, 0.1)', zIndex: 0, pointerEvents: 'none', borderLeft: '1px dashed #4ECDC4', borderRight: '1px dashed #4ECDC4' }}>
-          <span style={{ position: 'absolute', top: '-25px', left: '50%', transform: 'translateX(-50%)', fontSize: '0.8rem', color: '#4ECDC4', whiteSpace: 'nowrap' }}>Kumbh '15</span>
+        <div className="kumbh-band" style={{ left: '12.5%', width: '4%', background: 'rgba(78, 205, 196, 0.1)', borderLeft: '1px dashed #4ECDC4', borderRight: '1px dashed #4ECDC4' }}>
+          <span className="band-label" style={{ color: '#4ECDC4' }}>Kumbh '15</span>
         </div>
-        <div style={{ position: 'absolute', top: 0, bottom: '30px', left: '91.6%', width: '2%', background: 'rgba(244, 160, 28, 0.1)', zIndex: 0, pointerEvents: 'none', borderLeft: '1px dashed #F4A01C', borderRight: '1px dashed #F4A01C' }}>
-          <span style={{ position: 'absolute', top: '-25px', left: '50%', transform: 'translateX(-50%)', fontSize: '0.8rem', color: '#F4A01C', whiteSpace: 'nowrap' }}>Kumbh '25</span>
+        <div className="kumbh-band" style={{ left: '91.6%', width: '2%', background: 'rgba(244, 160, 28, 0.1)', borderLeft: '1px dashed #F4A01C', borderRight: '1px dashed #F4A01C' }}>
+          <span className="band-label" style={{ color: '#F4A01C' }}>Kumbh '25</span>
         </div>
 
         <Bubble data={timelineData} options={options} />

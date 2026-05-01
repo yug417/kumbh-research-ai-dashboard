@@ -37,7 +37,7 @@ export default function TopicInsights({ articles }) {
   const topics = Object.keys(TOPIC_ICONS);
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))', gap: '24px' }}>
+    <div className="topics-grid">
       {topics.map(topic => {
         const topicArticles = articles.filter(a => a.topic === topic);
         const nashikCount = topicArticles.filter(a => a.edition === 'nashik2015').length;
@@ -49,20 +49,20 @@ export default function TopicInsights({ articles }) {
         const topHeadlines = [...topicArticles].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 3);
 
         return (
-          <div key={topic} className="card" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', borderBottom: '1px solid var(--border-color)', paddingBottom: '12px' }}>
+          <div key={topic} className="card topic-card-content">
+            <div className="topic-header">
               {TOPIC_ICONS[topic]}
-              <h3 style={{ fontSize: '1.2rem' }}>{topic}</h3>
-              <span className="badge" style={{ marginLeft: 'auto', background: 'var(--accent-primary)', color: '#000' }}>
+              <h3 className="topic-title">{topic}</h3>
+              <span className="badge topic-badge">
                 {topicArticles.length}
               </span>
             </div>
             
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
+            <div className="topic-stats">
               <div><strong>Nashik:</strong> {nashikCount} | <strong>Prayagraj:</strong> {prayagrajCount}</div>
             </div>
             
-            <div style={{ display: 'flex', gap: '8px', fontSize: '0.8rem' }}>
+            <div className="phase-badges-container">
               <span className="phase-badge before">B: {beforeCount}</span>
               <span className="phase-badge during">D: {duringCount}</span>
               <span className="phase-badge after">A: {afterCount}</span>
@@ -72,16 +72,16 @@ export default function TopicInsights({ articles }) {
               "{AI_INSIGHTS[topic]}"
             </div>
 
-            <div style={{ marginTop: 'auto' }}>
-              <h4 style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '8px' }}>Top Headlines</h4>
-              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <div className="topic-footer">
+              <h4 className="headlines-title">Top Headlines</h4>
+              <ul className="headlines-list">
                 {topHeadlines.map(h => (
-                  <li key={h.id} style={{ fontSize: '0.9rem', display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
-                    <ExternalLink size={14} style={{ flexShrink: 0, marginTop: '3px', color: 'var(--text-secondary)' }} />
-                    <span>{h.headline} <span style={{ color: 'var(--text-secondary)', fontSize: '0.8rem' }}>({h.source})</span></span>
+                  <li key={h.id} className="headline-item">
+                    <ExternalLink size={14} className="headline-icon" />
+                    <span>{h.headline} <span className="headline-source">({h.source})</span></span>
                   </li>
                 ))}
-                {topHeadlines.length === 0 && <li style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>No articles found.</li>}
+                {topHeadlines.length === 0 && <li className="no-articles">No articles found.</li>}
               </ul>
             </div>
           </div>

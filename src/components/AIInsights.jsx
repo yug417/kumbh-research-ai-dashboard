@@ -9,17 +9,17 @@ export default function AIInsights({ articles }) {
   };
 
   const getTrend = (nashik, prayagraj) => {
-    if (prayagraj > nashik) return <span style={{color: '#4ECDC4', display: 'flex', alignItems: 'center'}}><ArrowUpRight size={16} /> Increasing</span>;
-    if (prayagraj < nashik) return <span style={{color: '#FF6B6B', display: 'flex', alignItems: 'center'}}><ArrowDownRight size={16} /> Decreasing</span>;
-    return <span style={{color: 'var(--text-secondary)', display: 'flex', alignItems: 'center'}}><Minus size={16} /> Stable</span>;
+    if (prayagraj > nashik) return <span className="trend-increasing"><ArrowUpRight size={16} /> Increasing</span>;
+    if (prayagraj < nashik) return <span className="trend-decreasing"><ArrowDownRight size={16} /> Decreasing</span>;
+    return <span className="trend-stable"><Minus size={16} /> Stable</span>;
   };
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '24px' }}>
+    <div className="ai-insights-grid">
       
       <div className="card">
-        <h3 style={{ marginBottom: '20px', color: 'var(--accent-primary)' }}>5 Key AI Pattern Summaries</h3>
-        <ul style={{ display: 'flex', flexDirection: 'column', gap: '16px', listStylePosition: 'inside' }}>
+        <h3 className="ai-insights-title">5 Key AI Pattern Summaries</h3>
+        <ul className="ai-insights-list">
           <li><strong>Technological Shift:</strong> There is a massive paradigm shift from physical security management in Nashik 2015 to digital/AI-first management in Prayagraj 2025.</li>
           <li><strong>Predictive Health:</strong> Health reporting has evolved from retroactive treatment counts to proactive predictive models and rapid deployment medical camps.</li>
           <li><strong>Financial Scale:</strong> The allocated budget and corresponding economic impact tracking for Prayagraj 2025 is nearly 3x that of Nashik 2015, dominating pre-event news.</li>
@@ -28,8 +28,8 @@ export default function AIInsights({ articles }) {
         </ul>
       </div>
 
-      <div className="card" style={{ overflowX: 'auto' }}>
-        <h3 style={{ marginBottom: '20px' }}>Edition Comparison Matrix</h3>
+      <div className="card table-responsive">
+        <h3 className="matrix-title">Edition Comparison Matrix</h3>
         <table className="comparison-table">
           <thead>
             <tr>
@@ -45,7 +45,7 @@ export default function AIInsights({ articles }) {
               const prayagraj = getTopicCount(topic, 'prayagraj2025');
               return (
                 <tr key={topic}>
-                  <td style={{ fontWeight: 500 }}>{topic}</td>
+                  <td className="topic-cell">{topic}</td>
                   <td>{nashik} articles</td>
                   <td>{prayagraj} articles</td>
                   <td>{getTrend(nashik, prayagraj)}</td>
