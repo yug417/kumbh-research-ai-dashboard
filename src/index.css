@@ -9,15 +9,15 @@
   --text-secondary: #A0AAB2;
   --accent-primary: #F4A01C;
   --accent-hover: #E08E0B;
-  
+
   --border-color: rgba(65, 90, 119, 0.5);
   --card-bg: rgba(27, 38, 59, 0.6);
   --glass-bg: rgba(13, 27, 42, 0.8);
-  
+
   /* Font families */
   --font-heading: 'Playfair Display', serif;
   --font-body: 'IBM Plex Sans', sans-serif;
-  
+
   /* Utilities */
   --border-radius: 12px;
   --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -50,7 +50,12 @@ body {
   line-height: 1.6;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-heading);
   color: var(--text-primary);
   font-weight: 600;
@@ -150,7 +155,8 @@ h1, h2, h3, h4, h5, h6 {
 
 /* MAIN LAYOUT */
 main {
-  padding-top: 70px; /* offset navbar */
+  padding-top: 70px;
+  /* offset navbar */
 }
 
 .section {
@@ -185,7 +191,7 @@ main {
   justify-content: center;
   padding: 0 5%;
   background: radial-gradient(circle at top right, rgba(244, 160, 28, 0.15) 0%, transparent 40%),
-              radial-gradient(circle at bottom left, rgba(65, 90, 119, 0.2) 0%, transparent 40%);
+    radial-gradient(circle at bottom left, rgba(65, 90, 119, 0.2) 0%, transparent 40%);
 }
 
 .hero-content {
@@ -239,7 +245,7 @@ main {
 .stat-card:hover {
   transform: translateY(-5px);
   border-color: var(--accent-primary);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 .stat-card h2 {
@@ -288,7 +294,8 @@ main {
   margin-bottom: 24px;
 }
 
-.filter-input, .filter-select {
+.filter-input,
+.filter-select {
   background: var(--bg-secondary);
   color: var(--text-primary);
   border: 1px solid var(--border-color);
@@ -299,7 +306,8 @@ main {
   min-width: 150px;
 }
 
-.filter-input:focus, .filter-select:focus {
+.filter-input:focus,
+.filter-select:focus {
   outline: none;
   border-color: var(--accent-primary);
 }
@@ -322,7 +330,8 @@ table {
   text-align: left;
 }
 
-th, td {
+th,
+td {
   padding: 16px;
   border-bottom: 1px solid var(--border-color);
 }
@@ -370,14 +379,18 @@ footer {
   .hero-content h1 {
     font-size: 2.5rem;
   }
+
   .stats-row {
     flex-wrap: wrap;
   }
+
   .charts-grid {
     grid-template-columns: 1fr;
   }
+
   .nav-links {
-    display: none; /* simple mobile nav */
+    display: none;
+    /* simple mobile nav */
   }
 }
 
@@ -424,13 +437,20 @@ footer {
   max-width: 600px;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
   animation: modalFadeIn 0.3s ease;
 }
 
 @keyframes modalFadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .modal-header {

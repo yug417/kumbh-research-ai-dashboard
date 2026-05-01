@@ -14,6 +14,9 @@ function App() {
 
   useEffect(() => {
     setArticles(articlesData);
+  }, []);
+
+  useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
 
@@ -61,15 +64,15 @@ function App() {
                 <p>Total Articles</p>
               </div>
               <div className="stat-card">
-                <h2>12</h2>
+                <h2>{new Set(articles.map(a => a.topic)).size}</h2>
                 <p>Unique Topics</p>
               </div>
               <div className="stat-card">
-                <h2>2</h2>
+                <h2>{new Set(articles.map(a => a.edition)).size}</h2>
                 <p>Editions Covered</p>
               </div>
               <div className="stat-card">
-                <h2>12</h2>
+                <h2>{new Set(articles.map(a => a.date.substring(0,4))).size}</h2>
                 <p>Years of Data</p>
               </div>
             </div>

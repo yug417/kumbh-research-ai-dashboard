@@ -1,5 +1,6 @@
 import React from 'react';
 import { Users, Trash2, Bus, Stethoscope, Search, ShieldAlert, Home, Smartphone, TrendingUp, Sparkles, Landmark, AlertTriangle, ExternalLink } from 'lucide-react';
+import { ALL_TOPICS, TOPIC_COLORS } from '../constants';
 
 const TOPIC_ICONS = {
   "Crowd Management": <Users size={24} color="#FF6B6B" />,

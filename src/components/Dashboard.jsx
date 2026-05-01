@@ -14,6 +14,7 @@ import {
 } from 'chart.js';
 import { Bar, Doughnut, Line } from 'react-chartjs-2';
 import { Download } from 'lucide-react';
+import { ALL_TOPICS, TOPIC_COLORS } from '../constants';
 
 ChartJS.register(
   CategoryScale,
@@ -28,27 +29,6 @@ ChartJS.register(
   Filler
 );
 
-const ALL_TOPICS = [
-  "Crowd Management", "Sanitation & Pollution", "Transport & Logistics",
-  "Health & Medical", "Lost & Found", "Security & Police",
-  "Accommodation", "Digital Services & Technology", "Finance & Economy",
-  "Religion & Culture", "Administration & Government", "Disaster & Incidents"
-];
-
-const TOPIC_COLORS = {
-  "Crowd Management": "#FF6B6B",
-  "Sanitation & Pollution": "#4ECDC4",
-  "Transport & Logistics": "#45B7D1",
-  "Health & Medical": "#F9ED69",
-  "Lost & Found": "#F08A5D",
-  "Security & Police": "#B83B5E",
-  "Accommodation": "#6A2C70",
-  "Digital Services & Technology": "#00B8A9",
-  "Finance & Economy": "#F8F3D4",
-  "Religion & Culture": "#F4A01C",
-  "Administration & Government": "#95E1D3",
-  "Disaster & Incidents": "#EAFFD0"
-};
 
 export default function Dashboard({ articles }) {
   const [filterEdition, setFilterEdition] = useState('All');
@@ -103,11 +83,14 @@ export default function Dashboard({ articles }) {
     }]
   };
 
+  const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
+  const gridColor = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)';
+
   const chart1Options = {
     indexAxis: 'y',
     responsive: true,
     plugins: { legend: { display: false } },
-    scales: { x: { grid: { color: 'rgba(255,255,255,0.1)' } }, y: { grid: { display: false } } }
+    scales: { x: { grid: { color: gridColor } }, y: { grid: { display: false } } }
   };
 
   // --- CHART 2: Grouped Bar (Phase by Edition) ---

@@ -1,12 +1,6 @@
 import React from 'react';
 import { ArrowUpRight, ArrowDownRight, Minus } from 'lucide-react';
-
-const TOPICS = [
-  "Crowd Management", "Sanitation & Pollution", "Transport & Logistics",
-  "Health & Medical", "Lost & Found", "Security & Police",
-  "Accommodation", "Digital Services & Technology", "Finance & Economy",
-  "Religion & Culture", "Administration & Government", "Disaster & Incidents"
-];
+import { ALL_TOPICS, TOPIC_COLORS } from '../constants';
 
 export default function AIInsights({ articles }) {
   const getTopicCount = (topic, edition) => {
@@ -45,7 +39,7 @@ export default function AIInsights({ articles }) {
             </tr>
           </thead>
           <tbody>
-            {TOPICS.map(topic => {
+            {ALL_TOPICS.map(topic => {
               const nashik = getTopicCount(topic, 'nashik2015');
               const prayagraj = getTopicCount(topic, 'prayagraj2025');
               return (
