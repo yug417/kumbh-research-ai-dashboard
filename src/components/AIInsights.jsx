@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { ArrowUpRight, ArrowDownRight, Minus } from 'lucide-react';
 import { ALL_TOPICS, TOPIC_COLORS } from '../constants';
 
@@ -29,7 +30,7 @@ export default function AIInsights({ articles }) {
 
       <div className="card" style={{ overflowX: 'auto' }}>
         <h3 style={{ marginBottom: '20px' }}>Edition Comparison Matrix</h3>
-        <table style={{ width: '100%', minWidth: '600px' }}>
+        <table className="comparison-table">
           <thead>
             <tr>
               <th>Topic Category</th>
@@ -58,3 +59,7 @@ export default function AIInsights({ articles }) {
     </div>
   );
 }
+
+AIInsights.propTypes = {
+  articles: PropTypes.array.isRequired
+};

@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import PropTypes from 'prop-types';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -12,9 +13,11 @@ import {
   LineElement,
   Filler
 } from 'chart.js';
-import { Bar, Doughnut, Line } from 'react-chartjs-2';
-import { Download } from 'lucide-react';
-import { ALL_TOPICS, TOPIC_COLORS } from '../constants';
+import { TOPIC_COLORS } from '../constants';
+import FilterBar from './FilterBar';
+import ChartsGrid from './ChartsGrid';
+import ArticleTable from './ArticleTable';
+import ArticleModal from './ArticleModal';
 
 ChartJS.register(
   CategoryScale,
@@ -30,7 +33,7 @@ ChartJS.register(
 );
 
 
-export default function Dashboard({ articles }) {
+export default function Dashboard({ articles, theme }) {
   const [filterEdition, setFilterEdition] = useState('All');
   const [filterPhase, setFilterPhase] = useState('All');
   const [filterTopic, setFilterTopic] = useState('All');
@@ -83,7 +86,7 @@ export default function Dashboard({ articles }) {
     }]
   };
 
-  const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
+  const isDark = theme === 'dark';
   const gridColor = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)';
 
   const chart1Options = {
@@ -153,66 +156,22 @@ export default function Dashboard({ articles }) {
     link.href = URL.createObjectURL(blob);
     link.download = "kumbh_articles_export.csv";
     link.click();
+    URL.revokeObjectURL(link.href);
   };
 
   return (
     <div className="dashboard-grid">
-      {/* FILTER BAR */}
-      <div className="card filter-bar">
-        <select className="filter-select" value={filterEdition} onChange={e => {setFilterEdition(e.target.value); setCurrentPage(1);}}>
-          <option value="All">All Editions</option>
-          <option value="nashik2015">Nashik 2015</option>
-          <option value="prayagraj2025">Prayagraj 2025</option>
-        </select>
-        
-        <select className="filter-select" value={filterPhase} onChange={e => {setFilterPhase(e.target.value); setCurrentPage(1);}}>
-          <option value="All">All Phases</option>
-          <option value="Before">Before</option>
-          <option value="During">During</option>
-          <option value="After">After</option>
-        </select>
-        
-        <select className="filter-select" value={filterTopic} onChange={e => {setFilterTopic(e.target.value); setCurrentPage(1);}}>
-          <option value="All">All Topics</option>
-          {ALL_TOPICS.map(t => <option key={t} value={t}>{t}</option>)}
-        </select>
-        
-        <select className="filter-select" value={filterSourceType} onChange={e => {setFilterSourceType(e.target.value); setCurrentPage(1);}}>
-          <option value="All">All Sources</option>
-          <option value="National">National</option>
-          <option value="Regional">Regional</option>
-        </select>
-        
-        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-          <input 
-            type="date" 
-            className="filter-input" 
-            value={filterStartDate}
-            onChange={e => {setFilterStartDate(e.target.value); setCurrentPage(1);}}
-            title="Start Date"
-          />
-          <span style={{color: 'var(--text-secondary)'}}>to</span>
-          <input 
-            type="date" 
-            className="filter-input" 
-            value={filterEndDate}
-            onChange={e => {setFilterEndDate(e.target.value); setCurrentPage(1);}}
-            title="End Date"
-          />
-        </div>
-        
-        <input 
-          type="text" 
-          className="filter-input" 
-          placeholder="Search headline..." 
-          value={searchQuery}
-          onChange={e => {setSearchQuery(e.target.value); setCurrentPage(1);}}
-        />
-        
-        <button className="btn" onClick={exportCSV} style={{ marginLeft: 'auto' }}>
-          <Download size={16} /> Export CSV
-        </button>
-      </div>
+      <FilterBar
+        filterEdition={filterEdition} setFilterEdition={setFilterEdition}
+        filterPhase={filterPhase} setFilterPhase={setFilterPhase}
+        filterTopic={filterTopic} setFilterTopic={setFilterTopic}
+        filterSourceType={filterSourceType} setFilterSourceType={setFilterSourceType}
+        filterStartDate={filterStartDate} setFilterStartDate={setFilterStartDate}
+        filterEndDate={filterEndDate} setFilterEndDate={setFilterEndDate}
+        searchQuery={searchQuery} setSearchQuery={setSearchQuery}
+        setCurrentPage={setCurrentPage}
+        exportCSV={exportCSV}
+      />
 
       {/* STATS ROW */}
       <div className="stats-row" style={{ marginBottom: '24px' }}>
@@ -234,140 +193,28 @@ export default function Dashboard({ articles }) {
         </div>
       </div>
 
-      {/* CHARTS GRID */}
-      <div className="charts-grid">
-        <div className="card">
-          <h3 style={{marginBottom: '16px'}}>Articles per Topic</h3>
-          <Bar data={chart1Data} options={chart1Options} height={200} />
-        </div>
-        <div className="card">
-          <h3 style={{marginBottom: '16px'}}>Phases by Edition</h3>
-          <Bar data={chart2Data} options={{ responsive: true }} height={200} />
-        </div>
-        <div className="card">
-          <h3 style={{marginBottom: '16px'}}>Source Types</h3>
-          <div style={{ height: '250px', display: 'flex', justifyContent: 'center' }}>
-            <Doughnut data={chart3Data} options={{ responsive: true, maintainAspectRatio: false }} />
-          </div>
-        </div>
-        <div className="card">
-          <h3 style={{marginBottom: '16px'}}>Publication Timeline</h3>
-          <Line data={chart4Data} options={{ responsive: true }} height={200} />
-        </div>
-      </div>
+      <ChartsGrid 
+        chart1Data={chart1Data} chart1Options={chart1Options}
+        chart2Data={chart2Data} chart3Data={chart3Data} chart4Data={chart4Data}
+      />
 
-      {/* DATA TABLE */}
-      <div className="card table-container">
-        <table>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Headline</th>
-              <th>Source</th>
-              <th>Date</th>
-              <th>Topic</th>
-              <th>Edition</th>
-              <th>Phase</th>
-              <th>Type</th>
-            </tr>
-          </thead>
-          <tbody>
-            {currentTableData.map(a => (
-              <tr key={a.id} onClick={() => setSelectedArticle(a)} style={{ cursor: 'pointer' }}>
-                <td>{a.id}</td>
-                <td style={{fontWeight: 500}}>{a.headline}</td>
-                <td>{a.source}</td>
-                <td>{a.date}</td>
-                <td>
-                  <span className="badge" style={{backgroundColor: TOPIC_COLORS[a.topic] || '#eee', color: '#000'}}>
-                    {a.topic}
-                  </span>
-                </td>
-                <td>{a.edition === 'nashik2015' ? 'Nashik' : 'Prayagraj'}</td>
-                <td>
-                  <span className="badge" style={{
-                    backgroundColor: a.phase === 'before' ? '#415A77' : a.phase === 'during' ? '#F4A01C' : '#4ECDC4',
-                    color: a.phase === 'during' ? '#000' : '#fff'
-                  }}>
-                    {a.phase.toUpperCase()}
-                  </span>
-                </td>
-                <td><span style={{textTransform: 'capitalize'}}>{a.sourceType}</span></td>
-              </tr>
-            ))}
-            {currentTableData.length === 0 && (
-              <tr><td colSpan="8" style={{textAlign: 'center', padding: '30px'}}>No articles found.</td></tr>
-            )}
-          </tbody>
-        </table>
-        
-        {/* Pagination Controls */}
-        {totalPages > 1 && (
-          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '20px' }}>
-            <button 
-              className="btn" 
-              disabled={currentPage === 1} 
-              onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-              style={{ padding: '8px 16px', fontSize: '0.9rem' }}
-            >
-              Prev
-            </button>
-            <span style={{ padding: '8px', color: 'var(--text-secondary)' }}>Page {currentPage} of {totalPages}</span>
-            <button 
-              className="btn" 
-              disabled={currentPage === totalPages} 
-              onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
-              style={{ padding: '8px 16px', fontSize: '0.9rem' }}
-            >
-              Next
-            </button>
-          </div>
-        )}
-      </div>
+      <ArticleTable 
+        currentTableData={currentTableData}
+        setSelectedArticle={setSelectedArticle}
+        currentPage={currentPage}
+        totalPages={totalPages}
+        setCurrentPage={setCurrentPage}
+      />
 
-      {/* ARTICLE MODAL */}
-      {selectedArticle && (
-        <div className="modal-overlay" onClick={() => setSelectedArticle(null)}>
-          <div className="modal-content" onClick={e => e.stopPropagation()}>
-            <div className="modal-header">
-              <h3 style={{ color: 'var(--text-secondary)', fontSize: '1rem', textTransform: 'uppercase' }}>
-                {selectedArticle.source} <span style={{ textTransform: 'none', marginLeft: '8px' }}>({selectedArticle.sourceType})</span>
-              </h3>
-              <button onClick={() => setSelectedArticle(null)} className="close-btn">✕</button>
-            </div>
-            <div className="modal-body">
-              <h2 style={{ marginBottom: '20px', fontSize: '1.8rem', lineHeight: 1.3 }}>{selectedArticle.headline}</h2>
-              <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginBottom: '24px' }}>
-                <span className="badge" style={{ backgroundColor: TOPIC_COLORS[selectedArticle.topic] || '#eee', color: '#000' }}>
-                  {selectedArticle.topic}
-                </span>
-                <span className="badge" style={{ backgroundColor: 'var(--bg-tertiary)' }}>
-                  {selectedArticle.date}
-                </span>
-                <span className="badge" style={{ backgroundColor: 'var(--bg-tertiary)' }}>
-                  {selectedArticle.edition === 'nashik2015' ? 'Nashik 2015' : 'Prayagraj 2025'}
-                </span>
-              </div>
-              <div style={{ padding: '20px', borderRadius: '8px', background: 'var(--bg-primary)', borderLeft: '4px solid var(--accent-primary)', marginBottom: '20px' }}>
-                <p style={{ fontStyle: 'italic', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
-                  According to reports from <strong>{selectedArticle.source}</strong>, developments regarding <strong>{selectedArticle.topic.toLowerCase()}</strong> were highlighted prominently during the <strong>{selectedArticle.phase}</strong> phase of the <strong>{selectedArticle.edition === 'nashik2015' ? 'Nashik' : 'Prayagraj'}</strong> Kumbh. 
-                  <br /><br />
-                  As this is a structured dataset extraction, the full unstructured article body is not stored directly in this database. 
-                </p>
-              </div>
-              <a 
-                href={selectedArticle.url || `https://www.google.com/search?q=${encodeURIComponent(`"${selectedArticle.headline}" OR (${selectedArticle.edition === 'nashik2015' ? 'Nashik' : 'Prayagraj'} Kumbh Mela ${selectedArticle.date.substring(0, 4)} ${selectedArticle.source})`)}`} 
-                className="btn" 
-                target="_blank" 
-                rel="noreferrer" 
-                style={{ width: '100%', justifyContent: 'center' }}
-              >
-                Read Full Article at {selectedArticle.source}
-              </a>
-            </div>
-          </div>
-        </div>
-      )}
+      <ArticleModal 
+        selectedArticle={selectedArticle}
+        setSelectedArticle={setSelectedArticle}
+      />
     </div>
   );
 }
+
+Dashboard.propTypes = {
+  articles: PropTypes.array.isRequired,
+  theme: PropTypes.string.isRequired
+};

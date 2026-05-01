@@ -1,6 +1,8 @@
 import React, { useMemo } from 'react';
+import PropTypes from 'prop-types';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, Tooltip, Legend } from 'chart.js';
 import { Bubble } from 'react-chartjs-2';
+import { ALL_TOPICS } from '../constants';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, Tooltip, Legend);
 
@@ -17,7 +19,7 @@ export default function Timeline({ articles }) {
       
       return {
         x: decimalYear,
-        y: (i % 5) + 1, // scatter on y axis
+        y: ALL_TOPICS.indexOf(a.topic) + 1, // scatter on y axis based on topic
         r: 6,
         article: a
       };
@@ -51,7 +53,7 @@ export default function Timeline({ articles }) {
       }
     },
     scales: {
-      y: { display: false, min: 0, max: 6 },
+      y: { display: false, min: 0, max: ALL_TOPICS.length + 1 },
       x: {
         min: 2014,
         max: 2026,
@@ -69,11 +71,11 @@ export default function Timeline({ articles }) {
     <div className="card" style={{ padding: '40px 24px' }}>
       <div style={{ display: 'flex', gap: '20px', marginBottom: '20px', justifyContent: 'center' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <div style={{ width: '16px', height: '16px', borderRadius: '50%', background: '#4ECDC4' }}></div>
+          <div className="legend-dot" style={{ background: '#4ECDC4' }}></div>
           <span>Nashik 2015</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <div style={{ width: '16px', height: '16px', borderRadius: '50%', background: '#F4A01C' }}></div>
+          <div className="legend-dot" style={{ background: '#F4A01C' }}></div>
           <span>Prayagraj 2025</span>
         </div>
       </div>
@@ -92,3 +94,7 @@ export default function Timeline({ articles }) {
     </div>
   );
 }
+
+Timeline.propTypes = {
+  articles: PropTypes.array.isRequired
+};

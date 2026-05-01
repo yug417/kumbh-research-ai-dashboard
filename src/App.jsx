@@ -87,7 +87,7 @@ function App() {
             <h2><BarChart3 className="icon" /> Dashboard</h2>
             <p>Interactive dataset exploration</p>
           </div>
-          <Dashboard articles={articles} />
+          <Dashboard articles={articles} theme={theme} />
         </section>
 
         <section id="insights" className="section">

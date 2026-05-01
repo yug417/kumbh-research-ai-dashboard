@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Users, Trash2, Bus, Stethoscope, Search, ShieldAlert, Home, Smartphone, TrendingUp, Sparkles, Landmark, AlertTriangle, ExternalLink } from 'lucide-react';
 import { ALL_TOPICS, TOPIC_COLORS } from '../constants';
 
@@ -45,7 +46,7 @@ export default function TopicInsights({ articles }) {
         const duringCount = topicArticles.filter(a => a.phase === 'during').length;
         const afterCount = topicArticles.filter(a => a.phase === 'after').length;
         
-        const topHeadlines = topicArticles.slice(0, 3);
+        const topHeadlines = [...topicArticles].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 3);
 
         return (
           <div key={topic} className="card" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -62,12 +63,12 @@ export default function TopicInsights({ articles }) {
             </div>
             
             <div style={{ display: 'flex', gap: '8px', fontSize: '0.8rem' }}>
-              <span style={{background: 'rgba(65, 90, 119, 0.3)', padding: '4px 8px', borderRadius: '4px'}}>B: {beforeCount}</span>
-              <span style={{background: 'rgba(244, 160, 28, 0.3)', padding: '4px 8px', borderRadius: '4px', color: 'var(--accent-primary)'}}>D: {duringCount}</span>
-              <span style={{background: 'rgba(78, 205, 196, 0.3)', padding: '4px 8px', borderRadius: '4px', color: '#4ECDC4'}}>A: {afterCount}</span>
+              <span className="phase-badge before">B: {beforeCount}</span>
+              <span className="phase-badge during">D: {duringCount}</span>
+              <span className="phase-badge after">A: {afterCount}</span>
             </div>
 
-            <div style={{ background: 'rgba(244, 160, 28, 0.1)', padding: '12px', borderRadius: '8px', borderLeft: '3px solid var(--accent-primary)', fontStyle: 'italic', fontSize: '0.95rem' }}>
+            <div className="insight-quote">
               "{AI_INSIGHTS[topic]}"
             </div>
 
@@ -89,3 +90,7 @@ export default function TopicInsights({ articles }) {
     </div>
   );
 }
+
+TopicInsights.propTypes = {
+  articles: PropTypes.array.isRequired
+};
